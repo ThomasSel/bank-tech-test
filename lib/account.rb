@@ -12,7 +12,8 @@ class Account
     @transactions.push({
       type: :deposit,
       amount: amount.to_f,
-      date: Date.parse(date_string)
+      date: Date.parse(date_string),
+      balance: add_to_balance(amount.to_f)
     })
   end
 
@@ -48,5 +49,9 @@ class Account
         -transaction[:amount]
       end
     end.to_f
+  end
+
+  def add_to_balance(amount)
+    return @transactions.last ? @transactions.last[:balance] + amount : amount
   end
 end

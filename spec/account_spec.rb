@@ -18,7 +18,8 @@ describe Account do
         expect(account.history.first).to include(
           type: :deposit,
           amount: 1000.0,
-          date: Date.new(2023, 1, 10)
+          date: Date.new(2023, 1, 10),
+          balance: 1000.0
         )
       end
 
@@ -29,7 +30,8 @@ describe Account do
         expect(account.history.first).to include(
           type: :deposit,
           amount: 99.99,
-          date: Date.new(2023, 1, 15)
+          date: Date.new(2023, 1, 15),
+          balance: 99.99
         )
       end
     end
@@ -41,6 +43,14 @@ describe Account do
         account.deposit(99.99, "2023-01-15")
 
         expect(account.history.length).to eq(2)
+      end
+
+      it "adds up the deposits in the balance" do
+        account = Account.new()
+        account.deposit(1000, "2023-01-10")
+        account.deposit(99.99, "2023-01-15")
+
+        expect(account.history.last[:balance]).to eq(1099.99)
       end
 
       it "deposit dates must be chronological" do
