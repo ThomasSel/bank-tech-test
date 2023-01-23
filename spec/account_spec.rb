@@ -50,6 +50,14 @@ describe Account do
           "transactions must be input chronologically"
         )
       end
+
+      it "deposits on the same day are stored in the order they were input" do
+        account = Account.new()
+        account.deposit(1000, "2023-01-10")
+        account.deposit(99.99, "2023-01-10")
+
+        expect(account.history.last).to include(amount: 99.99)
+      end
     end
   end
 end

@@ -24,6 +24,6 @@ class Account
 
   def chronological?(date_string)
     new_date = Date.parse(date_string)
-    return !@transactions.last || @transactions.last[:date] < new_date
+    return !@transactions.last || @transactions.last[:date] <= new_date
   end
 end
