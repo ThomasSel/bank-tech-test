@@ -7,7 +7,7 @@ class Account
 
   def deposit(amount, date_string)
     unless chronological?(date_string)
-      raise ArgumentError.new("transactions must be input chronologically")
+      raise ArgumentError.new("Transactions must be input chronologically")
     end
     @transactions.push({
       type: :deposit,
@@ -18,11 +18,16 @@ class Account
   end
 
   def withdraw(amount, date_string)
+    unless chronological?(date_string)
+      raise ArgumentError.new("Transactions must be input chronologically")
+    end
+
     balance = @transactions.last ? @transactions.last[:balance] : 0.0
     raise RuntimeError.new(
       "You cannot withdraw %.2f from your account, your current balance is %.2f" %
       [amount, balance]
     ) if balance < amount
+
     @transactions.push({
       type: :withdrawl,
       amount: amount.to_f,

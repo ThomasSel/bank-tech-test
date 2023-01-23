@@ -57,7 +57,7 @@ describe Account do
         account = Account.new()
         account.deposit(99.99, "2023-01-15")
         expect{ account.deposit(1000, "2023-01-10") }.to raise_error(
-          "transactions must be input chronologically"
+          "Transactions must be input chronologically"
         )
       end
 
@@ -120,6 +120,15 @@ describe Account do
             "You cannot withdraw 149.99 from your account, your current balance is 100.00"
           )
         end
+
+        it "raises if date isn't after deposit" do
+          account = Account.new()
+          account.deposit(90, "2023-01-01")
+          account.deposit(10, "2023-01-02")
+          expect{ account.withdraw(49.99, "2023-01-01") }.to raise_error(
+            "Transactions must be input chronologically"
+          )
+        end
       end
 
       context "two withdrawls" do
@@ -148,6 +157,15 @@ describe Account do
           account.withdraw(50, "2023-01-03")
           
           expect(account.history.last[:balance]).to be(30.0)
+        end
+
+        it "fails if the withdrawls aren't chronological" do
+          account = Account.new()
+          account.deposit(100, "2023-01-01")
+          account.withdraw(50, "2023-01-03")
+          expect{ account.withdraw(20, "2023-01-02") }.to raise_error(
+            "Transactions must be input chronologically"
+          )
         end
       end
     end
