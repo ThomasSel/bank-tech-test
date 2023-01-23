@@ -60,4 +60,43 @@ describe Account do
       end
     end
   end
+
+  describe "#withdraw" do
+    context "empty account" do
+      it "raises when withdrawing" do
+        account = Account.new()
+        expect{ account.withdraw(10, "2023-01-10") }.to raise_error(
+          "You cannot withdraw 10.00 from your account, your current balance is 0.00"
+        )
+      end
+    end
+    
+    context "account with a balance of 100.00" do
+      it "can withdraw 40" do
+        account = Account.new()
+        account.deposit(90, "2023-01-01")
+        account.deposit(10, "2023-01-02")
+        account.withdraw(40, "2023-01-10")
+        
+        expect(account.history.last).to include(
+          type: :withdrawl,
+          amount: 40.0,
+          date: Date.new(2023, 1, 10)
+        )
+      end
+
+      it "can withdraw 40.0" do
+        account = Account.new()
+        account.deposit(90, "2023-01-01")
+        account.deposit(10, "2023-01-02")
+        account.withdraw(40.0, "2023-01-10")
+        
+        expect(account.history.last).to include(
+          type: :withdrawl,
+          amount: 40.0,
+          date: Date.new(2023, 1, 10)
+        )
+      end
+    end
+  end
 end

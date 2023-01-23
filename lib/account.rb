@@ -16,6 +16,19 @@ class Account
     })
   end
 
+  def withdraw(amount, date_string)
+    balance = @transactions.sum{ |transaction| transaction[:amount] }.to_f
+    raise RuntimeError.new(
+      "You cannot withdraw %.2f from your account, your current balance is %.2f" %
+      [amount, balance]
+    ) if amount > balance
+    @transactions.push({
+      type: :withdrawl,
+      amount: amount.to_f,
+      date: Date.parse(date_string)
+    })
+  end
+
   def history
     return @transactions
   end
