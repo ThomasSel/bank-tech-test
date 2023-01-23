@@ -18,14 +18,16 @@ class Account
   end
 
   def withdraw(amount, date_string)
+    balance = @transactions.last ? @transactions.last[:balance] : 0.0
     raise RuntimeError.new(
       "You cannot withdraw %.2f from your account, your current balance is %.2f" %
       [amount, balance]
-    ) if amount > balance
+    ) if balance < amount
     @transactions.push({
       type: :withdrawl,
       amount: amount.to_f,
-      date: Date.parse(date_string)
+      date: Date.parse(date_string),
+      balance: add_to_balance(-amount.to_f)
     })
   end
 
@@ -39,18 +41,7 @@ class Account
     new_date = Date.parse(date_string)
     return !@transactions.last || @transactions.last[:date] <= new_date
   end
-
-  def balance
-    return @transactions.sum do |transaction|
-      case transaction[:type]
-      when :deposit
-        transaction[:amount]
-      when :withdrawl
-        -transaction[:amount]
-      end
-    end.to_f
-  end
-
+  
   def add_to_balance(amount)
     return @transactions.last ? @transactions.last[:balance] + amount : amount
   end
