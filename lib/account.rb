@@ -40,6 +40,13 @@ class Account
   end
 
   def balance
-    return @transactions.sum{ |transaction| transaction[:amount] }.to_f
+    return @transactions.sum do |transaction|
+      case transaction[:type]
+      when :deposit
+        transaction[:amount]
+      when :withdrawl
+        -transaction[:amount]
+      end
+    end.to_f
   end
 end
