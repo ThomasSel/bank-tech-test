@@ -43,15 +43,11 @@ describe Account do
         expect(account.history.length).to eq(2)
       end
 
-      it "has deposits ordered as they were entered" do
+      it "deposit dates must be chronological" do
         account = Account.new()
         account.deposit(99.99, "2023-01-15")
-        account.deposit(1000, "2023-01-10")
-
-        expect(account.history.first).to include(
-          type: :deposit,
-          amount: 99.99,
-          date: Date.new(2023, 1, 15)
+        expect{ account.deposit(1000, "2023-01-10") }.to raise_error(
+          "transactions must be input chronologically"
         )
       end
     end
