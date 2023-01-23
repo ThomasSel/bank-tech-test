@@ -17,7 +17,6 @@ class Account
   end
 
   def withdraw(amount, date_string)
-    balance = @transactions.sum{ |transaction| transaction[:amount] }.to_f
     raise RuntimeError.new(
       "You cannot withdraw %.2f from your account, your current balance is %.2f" %
       [amount, balance]
@@ -38,5 +37,9 @@ class Account
   def chronological?(date_string)
     new_date = Date.parse(date_string)
     return !@transactions.last || @transactions.last[:date] <= new_date
+  end
+
+  def balance
+    return @transactions.sum{ |transaction| transaction[:amount] }.to_f
   end
 end

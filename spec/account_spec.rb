@@ -85,16 +85,28 @@ describe Account do
         )
       end
 
-      it "can withdraw 40.0" do
+      it "can withdraw 49.99" do
         account = Account.new()
         account.deposit(90, "2023-01-01")
         account.deposit(10, "2023-01-02")
-        account.withdraw(40.0, "2023-01-10")
+        account.withdraw(49.99, "2023-01-10")
         
         expect(account.history.last).to include(
           type: :withdrawl,
-          amount: 40.0,
+          amount: 49.99,
           date: Date.new(2023, 1, 10)
+        )
+      end
+
+      it "raises when withdrawing more than 100" do
+        account = Account.new()
+        account.deposit(100, "2023-01-01")
+        
+        expect{ account.withdraw(150, "2023-01-10") }.to raise_error(
+          "You cannot withdraw 150.00 from your account, your current balance is 100.00"
+        )
+        expect{ account.withdraw(149.99, "2023-01-10") }.to raise_error(
+          "You cannot withdraw 149.99 from your account, your current balance is 100.00"
         )
       end
     end
