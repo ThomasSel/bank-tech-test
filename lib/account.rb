@@ -6,9 +6,8 @@ class Account
   end
 
   def deposit(amount, date_string)
-    unless chronological?(date_string)
-      raise ArgumentError.new("Transactions must be input chronologically")
-    end
+    check_order(date_string)
+    
     @transactions.push({
       type: :deposit,
       amount: amount.to_f,
@@ -18,9 +17,7 @@ class Account
   end
 
   def withdraw(amount, date_string)
-    unless chronological?(date_string)
-      raise ArgumentError.new("Transactions must be input chronologically")
-    end
+    check_order(date_string)
 
     balance = @transactions.last ? @transactions.last[:balance] : 0.0
     raise RuntimeError.new(
@@ -42,11 +39,13 @@ class Account
 
   private
 
-  def chronological?(date_string)
+  def check_order(date_string)
     new_date = Date.parse(date_string)
-    return !@transactions.last || @transactions.last[:date] <= new_date
+    unless !@transactions.last || @transactions.last[:date] <= new_date
+      raise ArgumentError.new("Transactions must be input chronologically")
+    end
   end
-  
+
   def add_to_balance(amount)
     return @transactions.last ? @transactions.last[:balance] + amount : amount
   end
