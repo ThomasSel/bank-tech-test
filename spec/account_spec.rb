@@ -167,6 +167,15 @@ describe Account do
             "Transactions must be input chronologically"
           )
         end
+
+        it "withdrawls on the same day are stored in the order they were input" do
+          account = Account.new()
+          account.deposit(100, "2023-01-01")
+          account.withdraw(20, "2023-01-02")
+          account.withdraw(50, "2023-01-02")
+
+          expect(account.history.last[:amount]).to be(50.0)
+        end
       end
     end
   end
