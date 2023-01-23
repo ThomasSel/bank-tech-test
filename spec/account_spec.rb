@@ -131,6 +131,24 @@ describe Account do
             "You cannot withdraw 100.00 from your account, your current balance is 60.00"
           )
         end
+
+        it "adds two transactions" do
+          account = Account.new()
+          account.deposit(100, "2023-01-01")
+          account.withdraw(20, "2023-01-02")
+          account.withdraw(50, "2023-01-03")
+
+          expect(account.history.length).to eq(3)
+        end
+
+        it "updates the balance" do
+          account = Account.new()
+          account.deposit(100, "2023-01-01")
+          account.withdraw(20, "2023-01-02")
+          account.withdraw(50, "2023-01-03")
+          
+          expect(account.history.last[:balance]).to be(30.0)
+        end
       end
     end
   end
