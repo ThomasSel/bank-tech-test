@@ -13,5 +13,28 @@ describe AccountStatement do
         )
       end
     end
+
+    context "with one deposit" do
+      before(:each) do
+        allow(account).to receive(:history).and_return([{
+          type: :deposit,
+          amount: 100,
+          date: Date.new(2023, 1, 1),
+          balance: 100
+        }])
+      end
+
+      it "returns a string with a header" do
+        expect(account_statement.get_statement).to include(
+          "date || credit || debit || balance"
+        )
+      end
+
+      it "returns a formatted line with the deposit" do
+        expect(account_statement.get_statement).to include(
+          "01/01/2023 || 100.00 || || 100.00"
+        )
+      end
+    end
   end
 end
