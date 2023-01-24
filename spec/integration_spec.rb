@@ -44,11 +44,7 @@ describe "Integration" do
       )
     end
 
-    xit "prints out correct transaction details" do
-      account.deposit(1000, "2023-01-10")
-      account.deposit(2000, "2023-01-13")
-      account.withdraw(500, "2023-01-14")
-
+    it "prints out correct transaction details" do
       expect(account_statement.get_statement).to include(
         "14/01/2023 || || 500.00 || 2500.00",
         "13/01/2023 || 2000.00 || || 3000.00",
