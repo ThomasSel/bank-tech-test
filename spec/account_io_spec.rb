@@ -25,5 +25,20 @@ describe AccountIO do
         )
       end
     end
+
+    context "with a series of valid deposits/withdrawls" do
+      it "successfully saves a header to the file" do
+        allow(account).to receive(:history).and_return([
+          { type: :deposit, amount: 1000.0, date: Date.new(2023, 1, 10), balance: 1000.0 },
+          { type: :deposit, amount: 2000.0, date: Date.new(2023, 1, 13), balance: 3000.0 },
+          { type: :withdrawl, amount: 500.0, date: Date.new(2023, 1, 14), balance: 2500.0 }
+        ])
+        expect(file_mock).to receive(:write).with("account_01.csv", include(
+          "date, credit, debit, balance"
+        ))
+
+        account_io.save("account_01.csv")
+      end
+    end
   end
 end

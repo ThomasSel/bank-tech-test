@@ -10,5 +10,7 @@ class AccountIO
     elsif @account.history.empty?
       raise "You have not Deposited/Withdrawn from this account yet"
     end
+    
+    @file.write(filename, "date, credit, debit, balance")
   end
 end
