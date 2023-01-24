@@ -1,5 +1,6 @@
 require "account"
 require "account_statement"
+require "account_io"
 
 describe "Integration" do
   let(:account) { Account.new }
@@ -74,6 +75,19 @@ describe "Integration" do
         "11/01/2023 || || 150.00 || 150.00",
         "11/01/2023 || 300.00 || || 300.00",
       )
+    end
+  end
+
+  describe "IO" do
+    let(:io) { double() }
+    let(:account_io) { AccountIO.new(account, io) }
+
+    context "with an empty account" do
+      it "raises an error" do
+        expect{ account_io.save("account_01.csv") }.to raise_error(
+          "You have not Deposited/Withdrawn from this account yet"
+        )
+      end
     end
   end
 end
