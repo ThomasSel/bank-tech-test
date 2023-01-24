@@ -2,10 +2,7 @@ require("date")
 require("account")
 
 describe Account do
-  account = ""
-  before(:each) do
-    account = Account.new()
-  end
+  let(:account) { Account.new() }
 
   context "No transactions" do
     it "has no transaction information" do
