@@ -100,6 +100,7 @@ describe AccountIO do
           "2023-01-13, 2000.00, 0.00, 3000.00",
           "2023-01-14, 0.00, 500.00, 2500.00"
         ])
+        expect(io_mock).to receive(:close)
 
         expect(file_mock).to receive(:new)
           .with("account_01.csv")
