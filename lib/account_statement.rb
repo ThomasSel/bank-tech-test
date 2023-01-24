@@ -22,17 +22,10 @@ class AccountStatement
   end
 
   def format_transaction(transaction)
-    case transaction[:type]
-    when :deposit
-      credit_string = "%.2f " % transaction[:amount]
-    when :withdrawl
-      debit_string = "%.2f " % transaction[:amount]
-    end
-
     return "%s || %s|| %s|| %.2f" % [
       format_date(transaction[:date]),
-      credit_string,
-      debit_string,
+      transaction[:type] == :deposit ? "%.2f " % transaction[:amount] : nil,
+      transaction[:type] == :withdrawl ? "%.2f " % transaction[:amount] : nil,
       transaction[:balance]
     ]
   end
