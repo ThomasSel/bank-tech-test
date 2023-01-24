@@ -1,5 +1,5 @@
-require("date")
-require("account")
+require "date"
+require "account"
 
 describe Account do
   let(:account) { Account.new() }

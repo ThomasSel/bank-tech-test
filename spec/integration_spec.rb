@@ -1,5 +1,5 @@
-require("account")
-require("account_statement")
+require "account"
+require "account_statement"
 
 describe "Integration" do
   let(:account) { Account.new }
