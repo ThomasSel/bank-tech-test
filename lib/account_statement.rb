@@ -4,6 +4,9 @@ class AccountStatement
   end
 
   def get_statement
-    return "You have not Deposited/Withdrawn from this account yet"
+    if @account.history.length.zero?
+      return "You have not Deposited/Withdrawn from this account yet"
+    end
+    return "date || credit || debit || balance"
   end
 end

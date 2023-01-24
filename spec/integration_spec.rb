@@ -14,7 +14,7 @@ describe "Integration" do
   end
 
   context "one deposit" do
-    xit "returns a string with a header" do
+    it "returns a string with a header" do
       account.deposit(1000, "2023-01-10")
 
       expect(account_statement.get_statement).to include(
