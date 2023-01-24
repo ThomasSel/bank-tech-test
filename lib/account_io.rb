@@ -21,11 +21,20 @@ class AccountIO
   def load(filename)
     if !filename.match?(/\.csv$/)
       raise "You must input a csv file"
-    elsif !File.exist?(filename)
+    elsif !@file.exist?(filename)
       raise "The file #{filename} doesn't exist"
     end
 
-
+    load_file = @file.new(filename)
+    load_file.readline  # Skip the header
+    load_file.readlines.each do |line|
+      line_array = line.split(",").map(&:strip)
+      if line_array[1] == "0.00"
+        @account.withdraw(line_array[2].to_f, line_array[0])
+      elsif line_array[2] == "0.00"
+        @account.deposit(line_array[1].to_f, line_array[0])
+      end
+    end
   end
 
   private

@@ -1,8 +1,8 @@
 require "account_io"
 
 describe AccountIO do
-  let(:account) { double() }
-  let(:file_mock) { double() }
+  let(:account) { double(:fake_account) }
+  let(:file_mock) { double(:fake_file) }
   let(:account_io) { AccountIO.new(account, file_mock) }
 
   describe "#save" do
@@ -78,12 +78,38 @@ describe AccountIO do
     context "when file doesn't exist" do
       it "raises an error" do
         allow(file_mock).to receive(:exist?)
-          .with("account_01.rb")
+          .with("account_01.csv")
           .and_return(false)
         
         expect{ account_io.load("account_01.csv") }.to raise_error(
           "The file account_01.csv doesn't exist"
         )
+      end
+    end
+
+    context "with a file with valid deposits/withdrawls" do
+      it "puts transactions from the file into the account object" do
+        allow(file_mock).to receive(:exist?)
+          .with("account_01.csv")
+          .and_return(true)
+
+        io_mock = double(:fake_io)
+        expect(io_mock).to receive(:readline)
+        expect(io_mock).to receive(:readlines).and_return([
+          "2023-01-10, 1000.00, 0.00, 1000.00",
+          "2023-01-13, 2000.00, 0.00, 3000.00",
+          "2023-01-14, 0.00, 500.00, 2500.00"
+        ])
+
+        expect(file_mock).to receive(:new)
+          .with("account_01.csv")
+          .and_return(io_mock)
+
+        expect(account).to receive(:deposit).with(1000.0, "2023-01-10").ordered
+        expect(account).to receive(:deposit).with(2000.0, "2023-01-13").ordered
+        expect(account).to receive(:withdraw).with(500.0, "2023-01-14").ordered
+
+        account_io.load("account_01.csv")
       end
     end
   end
