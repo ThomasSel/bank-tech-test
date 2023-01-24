@@ -6,7 +6,7 @@ describe "Integration" do
   let(:account_statement) { AccountStatement.new(account) }
 
   context "no deposit/withdrawl" do
-    xit "returns a message" do
+    it "returns a message" do
       expect(account_statement.get_statement).to eq(
         "You have not Deposited/Withdrawn from this account yet",
       )
