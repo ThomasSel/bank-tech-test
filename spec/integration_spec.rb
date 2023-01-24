@@ -22,7 +22,7 @@ describe "Integration" do
       )
     end
 
-    xit "returns a string with the deposit made" do
+    it "returns a string with the deposit made" do
       account.deposit(1000, "2023-01-10")
 
       expect(account_statement.get_statement).to include(
