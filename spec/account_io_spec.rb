@@ -100,11 +100,10 @@ describe AccountIO do
           "2023-01-13, 2000.00, 0.00, 3000.00",
           "2023-01-14, 0.00, 500.00, 2500.00"
         ])
-        expect(io_mock).to receive(:close)
 
-        expect(file_mock).to receive(:new)
+        expect(file_mock).to receive(:open)
           .with("account_01.csv")
-          .and_return(io_mock)
+          .and_yield(io_mock)
 
         expect(account).to receive(:deposit).with(1000.0, "2023-01-10").ordered
         expect(account).to receive(:deposit).with(2000.0, "2023-01-13").ordered

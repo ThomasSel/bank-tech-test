@@ -25,12 +25,12 @@ class AccountIO
       raise "The file #{filename} doesn't exist"
     end
 
-    file = @file_class.new(filename)
-    file.readline  # Skip the header
-    file.readlines.each do |line|
-      process_file_line(line)
+    @file_class.open(filename) do |file|
+      file.readline  # Skip the header
+      file.readlines.each do |line|
+        process_file_line(line)
+      end
     end
-    file.close
   end
 
   private
