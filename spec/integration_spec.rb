@@ -38,9 +38,9 @@ describe "Integration" do
       account.withdraw(500, "2023-01-14")
     end
 
-    xit "prints out statement with newest transaction first" do
+    it "prints out statement with newest transaction first" do
       expect(account_statement.get_statement).to match(
-        %r{14/01/2023.*13/01/2023.*10/01/2023},
+        %r{14/01/2023.*\n13/01/2023.*\n10/01/2023},
       )
     end
 

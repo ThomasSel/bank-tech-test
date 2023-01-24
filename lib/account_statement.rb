@@ -8,7 +8,13 @@ class AccountStatement
       return "You have not Deposited/Withdrawn from this account yet"
     end
     statement_array = ["date || credit || debit || balance"]
-    statement_array << "10/01/2023 || 1000.00 || || 1000.00"
-    return statement_array.join('\n')
+    @account.history.reverse.each do |transaction|
+      statement_array << "%s || %.2f || || %.2f" % [
+        transaction[:date].to_s.split("-").reverse.join("/"),
+        transaction[:amount],
+        transaction[:balance]
+      ]
+    end
+    return statement_array.join("\n")
   end
 end
