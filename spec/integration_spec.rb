@@ -61,13 +61,13 @@ describe "Integration" do
       account.deposit(40, "2023-01-14")
     end
 
-    xit "prints out statement with newest transaction first" do
+    it "prints out statement with newest transaction first" do
       expect(account_statement.get_statement).to match(
-        %r{14/01/2023.*12/01/2023.*11/01/2023.*11/01/2023},
+        %r{14/01/2023.*\n12/01/2023.*\n11/01/2023.*\n11/01/2023},
       )
     end
     
-    xit "prints out correct transaction details" do
+    it "prints out correct transaction details" do
       expect(account_statement.get_statement).to include(
         "14/01/2023 || 40.00 || || 140.00",
         "12/01/2023 || || 50.00 || 100.00",
