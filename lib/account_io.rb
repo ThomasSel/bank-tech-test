@@ -18,6 +18,16 @@ class AccountIO
     @file.write(filename, output_array.join("\n"))
   end
 
+  def load(filename)
+    if !filename.match?(/\.csv$/)
+      raise "You must input a csv file"
+    elsif !File.exist?(filename)
+      raise "The file #{filename} doesn't exist"
+    end
+
+
+  end
+
   private
 
   def format_transaction(transaction)

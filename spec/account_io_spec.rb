@@ -62,4 +62,29 @@ describe AccountIO do
       end
     end
   end
+
+  describe "#load" do
+    context "with a non csv filename" do
+      it "raises an error" do
+        expect{ account_io.load("account_01.txt") }.to raise_error(
+          "You must input a csv file"
+        )
+        expect{ account_io.load("account_01.rb") }.to raise_error(
+          "You must input a csv file"
+        )
+      end
+    end
+
+    context "when file doesn't exist" do
+      it "raises an error" do
+        allow(file_mock).to receive(:exist?)
+          .with("account_01.rb")
+          .and_return(false)
+        
+        expect{ account_io.load("account_01.csv") }.to raise_error(
+          "The file account_01.csv doesn't exist"
+        )
+      end
+    end
+  end
 end
