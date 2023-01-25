@@ -19,7 +19,7 @@ describe AccountIO do
 
     context "with an empty account" do
       it "raises an error" do
-        allow(account).to receive(:history).and_return([])
+        allow(account).to receive(:transactions).and_return([])
         expect{ account_io.save("account_01.csv") }.to raise_error(
           "You have not Deposited/Withdrawn from this account yet"
         )
@@ -28,7 +28,7 @@ describe AccountIO do
 
     context "with a series of valid deposits/withdrawls" do
       before(:each) do
-        allow(account).to receive(:history).and_return([
+        allow(account).to receive(:transactions).and_return([
           { type: :deposit, amount: 1000.0, date: Date.new(2023, 1, 10), balance: 1000.0 },
           { type: :deposit, amount: 2000.0, date: Date.new(2023, 1, 13), balance: 3000.0 },
           { type: :withdrawl, amount: 500.0, date: Date.new(2023, 1, 14), balance: 2500.0 }

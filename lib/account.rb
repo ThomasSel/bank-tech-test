@@ -29,7 +29,7 @@ class Account
     })
   end
 
-  def history
+  def transactions
     return @transactions
   end
 

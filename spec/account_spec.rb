@@ -6,7 +6,7 @@ describe Account do
 
   context "with no transactions" do
     it "has no transaction information" do
-      expect(account.history).to eq([])
+      expect(account.transactions).to eq([])
     end
   end
 
@@ -15,7 +15,7 @@ describe Account do
       it "has a deposit of 1000 on 10/01/2023" do
         account.deposit(1000, "2023-01-10")
 
-        expect(account.history.first).to include(
+        expect(account.transactions.first).to include(
           type: :deposit,
           amount: 1000.0,
           date: Date.new(2023, 1, 10),
@@ -26,7 +26,7 @@ describe Account do
       it "has a deposit of 99.99 on 15/01/2023" do
         account.deposit(99.99, "2023-01-15")
 
-        expect(account.history.first).to include(
+        expect(account.transactions.first).to include(
           type: :deposit,
           amount: 99.99,
           date: Date.new(2023, 1, 15),
@@ -52,14 +52,14 @@ describe Account do
         account.deposit(1000, "2023-01-10")
         account.deposit(99.99, "2023-01-15")
 
-        expect(account.history.length).to eq(2)
+        expect(account.transactions.length).to eq(2)
       end
 
       it "adds up the deposits in the balance" do
         account.deposit(1000, "2023-01-10")
         account.deposit(99.99, "2023-01-15")
 
-        expect(account.history.last[:balance]).to eq(1099.99)
+        expect(account.transactions.last[:balance]).to eq(1099.99)
       end
 
       it "deposit dates must be chronological" do
@@ -73,7 +73,7 @@ describe Account do
         account.deposit(1000, "2023-01-10")
         account.deposit(99.99, "2023-01-10")
 
-        expect(account.history.last).to include(amount: 99.99)
+        expect(account.transactions.last).to include(amount: 99.99)
       end
     end
   end
@@ -97,7 +97,7 @@ describe Account do
         it "can withdraw 40" do
           account.withdraw(40, "2023-01-10")
 
-          expect(account.history.last).to include(
+          expect(account.transactions.last).to include(
             type: :withdrawl,
             amount: 40.0,
             date: Date.new(2023, 1, 10)
@@ -107,7 +107,7 @@ describe Account do
         it "can withdraw 49.99" do
           account.withdraw(49.99, "2023-01-10")
 
-          expect(account.history.last).to include(
+          expect(account.transactions.last).to include(
             type: :withdrawl,
             amount: 49.99,
             date: Date.new(2023, 1, 10)
@@ -154,14 +154,14 @@ describe Account do
           account.withdraw(20, "2023-01-02")
           account.withdraw(50, "2023-01-03")
 
-          expect(account.history.length).to eq(4)
+          expect(account.transactions.length).to eq(4)
         end
 
         it "updates the balance" do
           account.withdraw(20, "2023-01-02")
           account.withdraw(50, "2023-01-03")
           
-          expect(account.history.last[:balance]).to be(30.0)
+          expect(account.transactions.last[:balance]).to be(30.0)
         end
 
         it "fails if the withdrawls aren't chronological" do
@@ -175,7 +175,7 @@ describe Account do
           account.withdraw(20, "2023-01-02")
           account.withdraw(50, "2023-01-02")
 
-          expect(account.history.last[:amount]).to be(50.0)
+          expect(account.transactions.last[:amount]).to be(50.0)
         end
       end
     end
@@ -188,7 +188,7 @@ describe Account do
         account.withdraw(500, "2023-01-02")
         account.reset
 
-        expect(account.history.length).to eq(0)
+        expect(account.transactions.length).to eq(0)
       end
     end
   end

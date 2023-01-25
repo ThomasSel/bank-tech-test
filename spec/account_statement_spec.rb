@@ -7,7 +7,7 @@ describe AccountStatement do
   describe "#statement" do
     context "when account is empty" do
       it "returns a message" do
-        expect(account).to receive(:history).and_return([])
+        expect(account).to receive(:transactions).and_return([])
         expect(account_statement.statement).to eq(
           "You have not Deposited/Withdrawn from this account yet"
         )
@@ -16,7 +16,7 @@ describe AccountStatement do
 
     context "with one deposit" do
       before(:each) do
-        allow(account).to receive(:history).and_return([{
+        allow(account).to receive(:transactions).and_return([{
           type: :deposit,
           amount: 100,
           date: Date.new(2023, 1, 1),
@@ -39,7 +39,7 @@ describe AccountStatement do
 
     context "with one withdrawl" do
       before(:each) do
-        allow(account).to receive(:history).and_return([{
+        allow(account).to receive(:transactions).and_return([{
           type: :withdrawl,
           amount: 100,
           date: Date.new(2023, 1, 1),
@@ -62,7 +62,7 @@ describe AccountStatement do
 
     context "with one deposit and one withdrawl" do
       before(:each) do
-        allow(account).to receive(:history).and_return([
+        allow(account).to receive(:transactions).and_return([
           {
             type: :deposit,
             amount: 150,

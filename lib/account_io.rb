@@ -7,12 +7,12 @@ class AccountIO
   def save(filename)
     if !filename.match?(/\.csv$/)
       raise "You must input a csv file"
-    elsif @account.history.empty?
+    elsif @account.transactions.empty?
       raise "You have not Deposited/Withdrawn from this account yet"
     end
 
     output_array = ["date, credit, debit, balance"]
-    @account.history.each do |transaction|
+    @account.transactions.each do |transaction|
       output_array << format_transaction(transaction)
     end
     @file_class.write(filename, output_array.join("\n"))
@@ -29,7 +29,7 @@ class AccountIO
       @account.reset
       file.readline  # Skip the header
       file.readlines.each do |line|
-        process_file_line(line)
+        parse_file_line(line)
       end
     end
   end
@@ -45,7 +45,7 @@ class AccountIO
     ]
   end
 
-  def process_file_line(line)
+  def parse_file_line(line)
     line_array = line.split(",").map(&:strip)
 
     if line_array[1] == "0.00"

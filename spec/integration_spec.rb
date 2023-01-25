@@ -146,7 +146,7 @@ describe "Integration" do
       it "updates the account history" do
         account_io.load("account_01.csv")
 
-        expect(account.history).to include(
+        expect(account.transactions).to include(
           include(type: :deposit, amount: 1000.0),
           include(type: :deposit, amount: 2000.0),
           include(type: :withdrawl, amount: 500.0),
@@ -168,7 +168,7 @@ describe "Integration" do
         account.deposit(100.0, "2023-01-01")
         account_io.load("account_01.csv")
 
-        expect(account.history).not_to include(
+        expect(account.transactions).not_to include(
           include(type: :deposit, amount: 100.0)
         )
       end

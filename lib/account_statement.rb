@@ -4,13 +4,15 @@ class AccountStatement
   end
 
   def statement
-    if @account.history.length.zero?
+    if @account.transactions.length.zero?
       return "You have not Deposited/Withdrawn from this account yet"
     end
+
     statement_array = ["date || credit || debit || balance"]
-    @account.history.reverse.each do |transaction|
+    @account.transactions.reverse.each do |transaction|
       statement_array << format_transaction(transaction)
     end
+
     return statement_array.join("\n")
   end
 
