@@ -123,5 +123,60 @@ describe "Integration" do
         account_io.save("account_01.csv")
       end
     end
+
+    context "when loading from a file" do
+      it "updates the account history" do
+        allow(file_mock).to receive(:exist?)
+          .with("account_01.csv")
+          .and_return(true)
+
+        io_mock = double(:fake_io)
+        expect(io_mock).to receive(:readline)
+        expect(io_mock).to receive(:readlines).and_return([
+          "2023-01-10, 1000.00, 0.00, 1000.00",
+          "2023-01-13, 2000.00, 0.00, 3000.00",
+          "2023-01-14, 0.00, 500.00, 2500.00"
+        ])
+
+        expect(file_mock).to receive(:open)
+          .with("account_01.csv")
+          .and_yield(io_mock)
+        
+        account_io.load("account_01.csv")
+
+        expect(account.history).to include(
+          include(type: :deposit, amount: 1000.0),
+          include(type: :deposit, amount: 2000.0),
+          include(type: :withdrawl, amount: 500.0),
+        )
+      end
+
+      it "produces the right formatted statement" do
+        allow(file_mock).to receive(:exist?)
+          .with("account_01.csv")
+          .and_return(true)
+
+        io_mock = double(:fake_io)
+        expect(io_mock).to receive(:readline)
+        expect(io_mock).to receive(:readlines).and_return([
+          "2023-01-10, 1000.00, 0.00, 1000.00",
+          "2023-01-13, 2000.00, 0.00, 3000.00",
+          "2023-01-14, 0.00, 500.00, 2500.00"
+        ])
+
+        expect(file_mock).to receive(:open)
+          .with("account_01.csv")
+          .and_yield(io_mock)
+        
+        account_io.load("account_01.csv")
+
+        expect(account_statement.get_statement).to include(
+          "date || credit || debit || balance",
+          "14/01/2023 || || 500.00 || 2500.00",
+          "13/01/2023 || 2000.00 || || 3000.00",
+          "10/01/2023 || 1000.00 || || 1000.00"
+        )
+      end
+    end
   end
 end
