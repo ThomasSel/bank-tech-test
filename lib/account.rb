@@ -7,6 +7,7 @@ class Account
 
   def deposit(amount, date_string)
     check_order(date_string)
+    check_deposit_amount(amount)
 
     @transactions.push({
       type: :deposit,
@@ -51,6 +52,12 @@ class Account
       "You cannot withdraw %.2f from your account, your current balance is %.2f" %
       [amount, balance]
     ) if balance < amount
+  end
+
+  def check_deposit_amount(amount)
+    if amount <= 0
+      raise ArgumentError.new("You must deposit more than 0 to your account")
+    end
   end
 
   def add_to_balance(amount)

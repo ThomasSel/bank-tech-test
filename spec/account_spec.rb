@@ -33,6 +33,18 @@ describe Account do
           balance: 99.99
         )
       end
+
+      it "throws when depositing 0" do
+        expect{ account.deposit(0, "2023-01-15") }.to raise_error(
+          "You must deposit more than 0 to your account"
+        )
+      end
+
+      it "throws when depositing a negative amount" do
+        expect{ account.deposit(-10, "2023-01-15") }.to raise_error(
+          "You must deposit more than 0 to your account"
+        )
+      end
     end
 
     context "with two deposits" do
