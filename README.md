@@ -52,3 +52,33 @@ running
 ```bash
 ruby bank.rb
 ```
+
+To run the tests for this project, run
+
+```bash
+rspec
+```
+
+from the home directory
+
+# Technical Details
+
+The main account logic is contained in the `Account` class.
+Internally, this class stores the transactions inside an array.
+Each transaction is represented as a hash, which contains the type of
+transaction, the amount, the date and the total balance of the account
+after the transaction.
+This array can be accessed using the `Account#history` method.
+This class also ensures that we are not withdrawing too much money from
+an account.
+
+The two other classes handle account data:
+
+- `AccountStatement` is responsible for generating a formatted account
+  statement.
+  It includes private methods to handle individual transaction formatting,
+  and combines these into a single string with a header.
+- `AccountIO` is responsible for reading and writing account data to `csv`
+  files.
+  The class checks the validity of filenames given as arguments to its methods
+  and uses ruby's `File` class to perform IO operations.
