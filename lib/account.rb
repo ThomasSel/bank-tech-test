@@ -48,10 +48,14 @@ class Account
 
   def check_withdrawl_amount(amount)
     balance = @transactions.last ? @transactions.last[:balance] : 0.0
-    raise RuntimeError.new(
-      "You cannot withdraw %.2f from your account, your current balance is %.2f" %
-      [amount, balance]
-    ) if balance < amount
+    if balance < amount
+      raise RuntimeError.new(
+        "You cannot withdraw %.2f from your account, your current balance is %.2f" %
+        [amount, balance]
+      )
+    elsif amount <= 0
+      raise ArgumentError.new("You must withdraw more than 0 from your account")
+    end
   end
 
   def check_deposit_amount(amount)

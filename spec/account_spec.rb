@@ -34,13 +34,13 @@ describe Account do
         )
       end
 
-      it "throws when depositing 0" do
+      it "raises when depositing 0" do
         expect{ account.deposit(0, "2023-01-15") }.to raise_error(
           "You must deposit more than 0 to your account"
         )
       end
 
-      it "throws when depositing a negative amount" do
+      it "raises when depositing a negative amount" do
         expect{ account.deposit(-10, "2023-01-15") }.to raise_error(
           "You must deposit more than 0 to your account"
         )
@@ -126,6 +126,18 @@ describe Account do
         it "raises if date isn't after deposit" do
           expect{ account.withdraw(49.99, "2023-01-01") }.to raise_error(
             "Transactions must be input chronologically"
+          )
+        end
+
+        it "raises when withdrawing 0" do
+          expect{ account.withdraw(0, "2023-01-15") }.to raise_error(
+            "You must withdraw more than 0 from your account"
+          )
+        end
+
+        it "raises when withdrawing a negative amount" do
+          expect{ account.withdraw(-10, "2023-01-15") }.to raise_error(
+            "You must withdraw more than 0 from your account"
           )
         end
       end
