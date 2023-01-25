@@ -26,6 +26,7 @@ class AccountIO
     end
 
     @file_class.open(filename) do |file|
+      @account.reset
       file.readline  # Skip the header
       file.readlines.each do |line|
         process_file_line(line)

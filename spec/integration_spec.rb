@@ -177,6 +177,31 @@ describe "Integration" do
           "10/01/2023 || 1000.00 || || 1000.00"
         )
       end
+
+      it "resets the account if it already has transactions" do
+        allow(file_mock).to receive(:exist?)
+          .with("account_01.csv")
+          .and_return(true)
+
+        io_mock = double(:fake_io)
+        expect(io_mock).to receive(:readline)
+        expect(io_mock).to receive(:readlines).and_return([
+          "2023-01-10, 1000.00, 0.00, 1000.00",
+          "2023-01-13, 2000.00, 0.00, 3000.00",
+          "2023-01-14, 0.00, 500.00, 2500.00"
+        ])
+
+        expect(file_mock).to receive(:open)
+          .with("account_01.csv")
+          .and_yield(io_mock)
+
+        account.deposit(100.0, "2023-01-01")
+        account_io.load("account_01.csv")
+
+        expect(account.history).not_to include(
+          include(type: :deposit, amount: 100.0)
+        )
+      end
     end
   end
 end

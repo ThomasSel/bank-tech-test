@@ -32,6 +32,10 @@ class Account
     return @transactions
   end
 
+  def reset
+    @transactions = []
+  end
+
   private
 
   def check_order(date_string)

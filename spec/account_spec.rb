@@ -156,4 +156,16 @@ describe Account do
       end
     end
   end
+
+  describe "#reset" do
+    context "with several transactions" do
+      it "removes the transactions from the history" do
+        account.deposit(500, "2023-01-01")
+        account.withdraw(500, "2023-01-02")
+        account.reset
+
+        expect(account.history.length).to eq(0)
+      end
+    end
+  end
 end

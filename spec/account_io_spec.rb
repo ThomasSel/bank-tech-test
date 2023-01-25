@@ -105,6 +105,7 @@ describe AccountIO do
           .with("account_01.csv")
           .and_yield(io_mock)
 
+        expect(account).to receive(:reset)
         expect(account).to receive(:deposit).with(1000.0, "2023-01-10").ordered
         expect(account).to receive(:deposit).with(2000.0, "2023-01-13").ordered
         expect(account).to receive(:withdraw).with(500.0, "2023-01-14").ordered
