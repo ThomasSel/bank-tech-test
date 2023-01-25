@@ -17,4 +17,10 @@ if __FILE__ == $0
 
   # Save the account to temp.csv
   account_io.save("temp.csv")
+
+  # Reset the account history
+  account.reset
+
+  # Load the account from temp.csv
+  account_io.load("temp.csv")
 end
