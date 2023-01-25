@@ -13,7 +13,7 @@ if __FILE__ == $0
   account.withdraw(500, "2023-01-14")
 
   # Print a statement to the console
-  puts account_statement.get_statement
+  puts account_statement.statement
   # date || credit || debit || balance
   # 14/01/2023 || || 500.00 || 2500.00
   # 13/01/2023 || 2000.00 || || 3000.00

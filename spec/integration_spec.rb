@@ -8,7 +8,7 @@ describe "Integration" do
 
   context "with no deposit/withdrawl" do
     it "returns a message" do
-      expect(account_statement.get_statement).to eq(
+      expect(account_statement.statement).to eq(
         "You have not Deposited/Withdrawn from this account yet",
       )
     end
@@ -18,7 +18,7 @@ describe "Integration" do
     it "returns a string with a header" do
       account.deposit(1000, "2023-01-10")
 
-      expect(account_statement.get_statement).to include(
+      expect(account_statement.statement).to include(
         "date || credit || debit || balance",
       )
     end
@@ -26,7 +26,7 @@ describe "Integration" do
     it "returns a string with the deposit made" do
       account.deposit(1000, "2023-01-10")
 
-      expect(account_statement.get_statement).to include(
+      expect(account_statement.statement).to include(
         "10/01/2023 || 1000.00 || || 1000.00",
       )
     end
@@ -40,13 +40,13 @@ describe "Integration" do
     end
 
     it "prints out statement with newest transaction first" do
-      expect(account_statement.get_statement).to match(
+      expect(account_statement.statement).to match(
         %r{14/01/2023.*\n13/01/2023.*\n10/01/2023},
       )
     end
 
     it "prints out correct transaction details" do
-      expect(account_statement.get_statement).to include(
+      expect(account_statement.statement).to include(
         "14/01/2023 || || 500.00 || 2500.00",
         "13/01/2023 || 2000.00 || || 3000.00",
         "10/01/2023 || 1000.00 || || 1000.00",
@@ -63,13 +63,13 @@ describe "Integration" do
     end
 
     it "prints out statement with newest transaction first" do
-      expect(account_statement.get_statement).to match(
+      expect(account_statement.statement).to match(
         %r{14/01/2023.*\n12/01/2023.*\n11/01/2023.*\n11/01/2023},
       )
     end
     
     it "prints out correct transaction details" do
-      expect(account_statement.get_statement).to include(
+      expect(account_statement.statement).to include(
         "14/01/2023 || 40.00 || || 140.00",
         "12/01/2023 || || 50.00 || 100.00",
         "11/01/2023 || || 150.00 || 150.00",
@@ -156,7 +156,7 @@ describe "Integration" do
       it "produces the right formatted statement" do
         account_io.load("account_01.csv")
 
-        expect(account_statement.get_statement).to include(
+        expect(account_statement.statement).to include(
           "date || credit || debit || balance",
           "14/01/2023 || || 500.00 || 2500.00",
           "13/01/2023 || 2000.00 || || 3000.00",

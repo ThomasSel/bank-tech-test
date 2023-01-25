@@ -4,11 +4,11 @@ describe AccountStatement do
   let(:account) { double() }
   let(:account_statement) { AccountStatement.new(account) }
 
-  describe "get_statement" do
+  describe "#statement" do
     context "when account is empty" do
       it "returns a message" do
         expect(account).to receive(:history).and_return([])
-        expect(account_statement.get_statement).to eq(
+        expect(account_statement.statement).to eq(
           "You have not Deposited/Withdrawn from this account yet"
         )
       end
@@ -25,13 +25,13 @@ describe AccountStatement do
       end
 
       it "returns a string with a header" do
-        expect(account_statement.get_statement).to include(
+        expect(account_statement.statement).to include(
           "date || credit || debit || balance"
         )
       end
 
       it "returns a formatted line with the deposit" do
-        expect(account_statement.get_statement).to include(
+        expect(account_statement.statement).to include(
           "01/01/2023 || 100.00 || || 100.00"
         )
       end
@@ -48,13 +48,13 @@ describe AccountStatement do
       end
 
       it "returns a string with a header" do
-        expect(account_statement.get_statement).to include(
+        expect(account_statement.statement).to include(
           "date || credit || debit || balance"
         )
       end
 
       it "returns a formatted line with the withdrawl" do
-        expect(account_statement.get_statement).to include(
+        expect(account_statement.statement).to include(
           "01/01/2023 || || 100.00 || -100.00"
         )
       end
@@ -78,19 +78,19 @@ describe AccountStatement do
       end
 
       it "returns a string with a header" do
-        expect(account_statement.get_statement).to include(
+        expect(account_statement.statement).to include(
           "date || credit || debit || balance"
         )
       end
 
       it "returns a string with transactions in reverse order" do
-        expect(account_statement.get_statement).to match(
+        expect(account_statement.statement).to match(
           %r{02/01/2023.*\n01/01/2023}
         )
       end
 
       it "correctly formats the output" do
-        expect(account_statement.get_statement).to include(
+        expect(account_statement.statement).to include(
           "02/01/2023 || || 100.00 || 50.00",
           "01/01/2023 || 150.00 || || 150.00"
         )

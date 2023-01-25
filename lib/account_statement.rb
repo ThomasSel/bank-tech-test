@@ -3,7 +3,7 @@ class AccountStatement
     @account = account
   end
 
-  def get_statement
+  def statement
     if @account.history.length.zero?
       return "You have not Deposited/Withdrawn from this account yet"
     end
