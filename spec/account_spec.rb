@@ -2,7 +2,7 @@ require "date"
 require "account"
 
 describe Account do
-  let(:account) { Account.new() }
+  let(:account) { described_class.new() }
 
   context "with no transactions" do
     it "has no transaction information" do

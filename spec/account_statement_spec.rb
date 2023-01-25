@@ -2,7 +2,7 @@ require "account_statement"
 
 describe AccountStatement do
   let(:account) { double() }
-  let(:account_statement) { AccountStatement.new(account) }
+  let(:account_statement) { described_class.new(account) }
 
   describe "#statement" do
     context "when account is empty" do
