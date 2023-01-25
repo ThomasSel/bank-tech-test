@@ -82,3 +82,14 @@ The two other classes handle account data:
   files.
   The class checks the validity of filenames given as arguments to its methods
   and uses ruby's `File` class to perform IO operations.
+
+# Things to Add
+
+- Use a database instead of a file system to keep track of multiple accounts
+  centrally.
+- Create a command-line interface or web app to allow the user to easily add
+  transactions to their account.
+- Allow the user to perform more complex actions, such as transfers and
+  standing orders.
+- Add user info in order to differentiate between accounts and settings to
+  allow for more customization.
