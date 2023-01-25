@@ -36,7 +36,7 @@ These methods both take and amount (number) and a date (string with
 
 In order to get a formatted statement of an account, create a new instance
 of `AccountStatement` with your account instance as an argument.
-The `AccountStatement#get_statement` method will return a string with the
+The `AccountStatement#statement` method will return a string with the
 formatted statement.
 
 To save / load your account to a file on your system, create a new instance
