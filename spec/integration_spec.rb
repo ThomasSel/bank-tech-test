@@ -6,7 +6,7 @@ describe "Integration" do
   let(:account) { Account.new }
   let(:account_statement) { AccountStatement.new(account) }
 
-  context "no deposit/withdrawl" do
+  context "with no deposit/withdrawl" do
     it "returns a message" do
       expect(account_statement.get_statement).to eq(
         "You have not Deposited/Withdrawn from this account yet",
@@ -14,7 +14,7 @@ describe "Integration" do
     end
   end
 
-  context "one deposit" do
+  context "with one deposit" do
     it "returns a string with a header" do
       account.deposit(1000, "2023-01-10")
 
@@ -32,7 +32,7 @@ describe "Integration" do
     end
   end
 
-  context "successive deposits and a valid withdrawl" do
+  context "with successive deposits and a valid withdrawl" do
     before(:each) do
       account.deposit(1000, "2023-01-10")
       account.deposit(2000, "2023-01-13")
@@ -54,7 +54,7 @@ describe "Integration" do
     end
   end
 
-  context "series of valid deposits/withdrawls" do
+  context "with a series of valid deposits/withdrawls" do
     before(:each) do
       account.deposit(300, "2023-01-11")
       account.withdraw(150, "2023-01-11")

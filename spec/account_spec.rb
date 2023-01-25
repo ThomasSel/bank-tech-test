@@ -4,14 +4,14 @@ require "account"
 describe Account do
   let(:account) { Account.new() }
 
-  context "No transactions" do
+  context "with no transactions" do
     it "has no transaction information" do
       expect(account.history).to eq([])
     end
   end
 
   describe "#deposit" do
-    context "One deposit" do
+    context "with one deposit" do
       it "has a deposit of 1000 on 10/01/2023" do
         account.deposit(1000, "2023-01-10")
 
@@ -35,7 +35,7 @@ describe Account do
       end
     end
 
-    context "Two deposits" do
+    context "with two deposits" do
       it "has two deposits" do
         account.deposit(1000, "2023-01-10")
         account.deposit(99.99, "2023-01-15")
@@ -67,7 +67,7 @@ describe Account do
   end
 
   describe "#withdraw" do
-    context "empty account" do
+    context "with an empty account" do
       it "raises when withdrawing" do
         expect{ account.withdraw(10, "2023-01-10") }.to raise_error(
           "You cannot withdraw 10.00 from your account, your current balance is 0.00"
@@ -75,13 +75,13 @@ describe Account do
       end
     end
 
-    context "account with a balance of 100.00" do
+    context "with a balance of 100.00" do
       before(:each) do
         account.deposit(90, "2023-01-01")
         account.deposit(10, "2023-01-02")
       end
 
-      context "one withdrawl" do
+      context "with one withdrawl" do
         it "can withdraw 40" do
           account.withdraw(40, "2023-01-10")
 
@@ -118,7 +118,7 @@ describe Account do
         end
       end
 
-      context "two withdrawls" do
+      context "with two withdrawls" do
         it "raises when withdrawing 40, then 100" do
           account.withdraw(40, "2023-01-10")
           expect{ account.withdraw(100, "2023-01-11") }.to raise_error(
