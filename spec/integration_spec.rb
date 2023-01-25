@@ -79,14 +79,48 @@ describe "Integration" do
   end
 
   describe "IO" do
-    let(:io) { double() }
-    let(:account_io) { AccountIO.new(account, io) }
+    let(:file_mock) { double(:fake_file_class) }
+    let(:account_io) { AccountIO.new(account, file_mock) }
 
     context "with an empty account" do
       it "raises an error" do
         expect{ account_io.save("account_01.csv") }.to raise_error(
           "You have not Deposited/Withdrawn from this account yet"
         )
+      end
+    end
+
+    context "when writing to a file" do
+      before(:each) do
+        account.deposit(1000, "2023-01-10")
+        account.deposit(2000, "2023-01-13")
+        account.withdraw(500, "2023-01-14")
+      end
+
+      it "successfully saves a header to the file" do
+        expect(file_mock).to receive(:write).with("account_01.csv", include(
+          "date, credit, debit, balance"
+        ))
+
+        account_io.save("account_01.csv")
+      end
+
+      it "saves transactions in correct order" do
+        expect(file_mock).to receive(:write).with("account_01.csv", match(
+          %r{2023-01-10.*\n2023-01-13.*\n2023-01-14}
+        ))
+
+        account_io.save("account_01.csv")
+      end
+
+      it "formats the output to csv" do
+        expect(file_mock).to receive(:write).with("account_01.csv", include(
+          "2023-01-10, 1000.00, 0.00, 1000.00",
+          "2023-01-13, 2000.00, 0.00, 3000.00",
+          "2023-01-14, 0.00, 500.00, 2500.00",
+        ))
+
+        account_io.save("account_01.csv")
       end
     end
   end

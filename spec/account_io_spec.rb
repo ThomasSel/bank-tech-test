@@ -2,7 +2,7 @@ require "account_io"
 
 describe AccountIO do
   let(:account) { double(:fake_account) }
-  let(:file_mock) { double(:fake_file) }
+  let(:file_mock) { double(:fake_file_class) }
   let(:account_io) { AccountIO.new(account, file_mock) }
 
   describe "#save" do
