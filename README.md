@@ -59,7 +59,7 @@ account.deposit(2000, "2023-01-13")
 account.withdraw(500, "2023-01-14")
 
 # Print a statement to the console
-puts account_statement.get_statement
+puts account_statement.statement
 # date || credit || debit || balance
 # 14/01/2023 || || 500.00 || 2500.00
 # 13/01/2023 || 2000.00 || || 3000.00
@@ -96,7 +96,7 @@ Internally, this class stores the transactions inside an array.
 Each transaction is represented as a hash, which contains the type of
 transaction, the amount, the date and the total balance of the account
 after the transaction.
-This array can be accessed using the `Account#history` method.
+This array can be accessed using the `Account#transactions` method.
 This class also ensures that we are not withdrawing too much money from
 an account.
 
